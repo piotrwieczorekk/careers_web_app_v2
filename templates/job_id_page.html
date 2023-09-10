@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{job.title}} - Careers App</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <style>
+      #banner {
+        height: 20%;
+        width: 100%;
+      }
+      p {
+        text-align: justify;
+      }
+    </style>
+  </head>
+  <body>
+  {%include 'header.html'%}
+    <div class="container">
+    <h4 style="color: #439B41;">
+      <b>Job Title</b>
+    </h4>
+      <p>
+        <b>{{job.title}}</b>
+      </p>
+    <h4 style="color: #439B41;">
+      <b>Location:</b>
+    </h4>
+      <p>
+        <b>{{job.location}}</b>
+      </p>
+    {% if 'salary' in job %}
+    <h4 style="color: #439B41;">
+      <b>Salary:</b>
+    </h4>
+      <p>
+        <b>{{job.salary}}</b>
+      </p>
+    {% endif %}
+    {% if 'currency' in job %}
+    <h4 style="color: #439B41;">
+      <b>Currency:</b>
+    </h4> 
+      <p>
+        <b>{{job.currency}}</b>
+      </p>
+    {% endif %}
+    {% if 'responsibilities' in job %}
+    <h4 style="color: #439B41;">
+      <b>Responsibilities:</b>
+    </h4> 
+      <p>
+        <b>{{job.responsibilities}}</b>
+      </p>
+    {% endif %}
+    {% if 'requirements' in job %}
+    <h4 style="color: #439B41;">
+      <b>Requirements:</b>
+    </h4> 
+      <p>
+        <b>{{job.requirements}}</b>
+      </p>
+    {% endif %}
+    {%include 'footer.html'%}
+    </div> 
+  </body>
+</html>
