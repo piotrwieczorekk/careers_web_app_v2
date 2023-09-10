@@ -1,10 +1,15 @@
-from flask import Flask, render_template
+from flask import Flask, render_template,jsonify
+from database import engine, get_jobs_from_db
+from sqlalchemy import text
 
 app = Flask(__name__)
 
-@app.route('/')
+
+@app.route("/")
 def home():
-    return render_template('home2.html')
+  jobs = get_jobs_from_db()
+  return render_template('home2.html', 
+                         jobs=jobs)
 
 @app.route('/about')
 def about_us():
