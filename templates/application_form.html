@@ -1,5 +1,5 @@
 <h4>Application Form</h4>
-<form>
+<form action="{{ url_for('submit_application', id=job.id) }}" method="post">
   <div class="mb-2">
   <label>Full Name</label><br>
   <input type="text" required name="full_name" placeholder="Bruce Wayne">
@@ -29,6 +29,5 @@
   <label>Resume URL</label><br>
   <input type="url" name="resume_url">
   </div>
-
   <input type="submit">
 </form>

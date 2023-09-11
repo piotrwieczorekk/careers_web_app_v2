@@ -1,7 +1,6 @@
-from flask import Flask, render_template,jsonify
-from database import engine, get_jobs_from_db, load_job_from_db
+from flask import Flask, render_template,jsonify,request
+from database import engine, get_jobs_from_db, load_job_from_db,add_application_to_db
 from sqlalchemy import text
-
 app = Flask(__name__)
 
 
@@ -15,6 +14,7 @@ def home():
 def job(id):
   job = load_job_from_db(id)
   if job:
+    print(job)
     return render_template('job_id_page.html', 
                           job=job)
   else:
@@ -32,9 +32,24 @@ def frequently_asked_questions():
 def features():
     return render_template('features.html')
 
+
 @app.route('/job/<id>/form')
 def application_form(id):
-    return render_template('application_form.html',job_id = id)
+    job = load_job_from_db(id)  # Load the job object based on the 'id'
+    if job:
+        return render_template('application_form.html', job=job)
+    else:
+        return 'There is no such job id.', 404
+
+@app.route('/job/<id>/form/submit',methods=['POST'])
+def submit_application(id):
+    data = request.form
+    job = load_job_from_db(id)  # Load the job object based on the 'id'
+    add_application_to_db(id, data)
+    return render_template('application_form_submitted.html', job=job,application=data)
+
+
+  
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080)
