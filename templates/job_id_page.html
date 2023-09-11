@@ -19,49 +19,60 @@
   {%include 'header.html'%}
     <div class="container">
     <h4 style="color: #439B41;">
-      <b>Job Title</b>
+      Job Title
     </h4>
       <p>
-        <b>{{job.title}}</b>
+        {{job.title}}
       </p>
     <h4 style="color: #439B41;">
-      <b>Location:</b>
+      Location:
     </h4>
       <p>
-        <b>{{job.location}}</b>
+        {{job.location}}
       </p>
     {% if 'salary' in job %}
     <h4 style="color: #439B41;">
-      <b>Salary:</b>
+      Salary:
     </h4>
       <p>
-        <b>{{job.salary}}</b>
+        {{job.salary}}
       </p>
     {% endif %}
     {% if 'currency' in job %}
     <h4 style="color: #439B41;">
-      <b>Currency:</b>
+      Currency:
     </h4> 
       <p>
-        <b>{{job.currency}}</b>
+        {{job.currency}}
       </p>
     {% endif %}
     {% if 'responsibilities' in job %}
     <h4 style="color: #439B41;">
-      <b>Responsibilities:</b>
+      Responsibilities:
     </h4> 
       <p>
-        <b>{{job.responsibilities}}</b>
+        <ul>
+          {% for line in job.responsibilities.split("\n") %}
+          <li>{{line}}</li>
+          {% endfor %}
+        </ul>
       </p>
     {% endif %}
     {% if 'requirements' in job %}
     <h4 style="color: #439B41;">
-      <b>Requirements:</b>
+      Requirements:
     </h4> 
       <p>
-        <b>{{job.requirements}}</b>
+        <ul>
+          {% for line in job.requirements.split("\n") %}
+          <li>{{line}}</li>
+          {% endfor %}
+        </ul>
       </p>
     {% endif %}
+      <div id="job-apply" style="text-align:center">
+    <a href="mailto:hello@jovian.ai?subject=Application%20for%20{{ job['title'] }}&body=My%20name%3A%20%3Cyour%20name%20here%3E%0D%0A%0D%0AMy%20Resume%20link%3A%20%3Cresume%20link%3E%0D%0A%0D%0AMy%20LinkedIn%20link%3A%20%3Clinkedin%20in%3E%0D%0A%0D%0A" type="button" class="btn btn-outline-success">Apply</a>
+  </div>
     {%include 'footer.html'%}
     </div> 
   </body>
