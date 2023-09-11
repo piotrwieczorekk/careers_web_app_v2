@@ -32,6 +32,10 @@ def frequently_asked_questions():
 def features():
     return render_template('features.html')
 
+@app.route('/job/<id>/form')
+def application_form(id):
+    return render_template('application_form.html',job_id = id)
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080)
 
