@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Job Filters</title>
+</head>
+<body>
+    <h2>Job Filters</h2>
+    <form action="{{ url_for('filter_jobs') }}" method="post">
+        <div class="form-group">
+            <label for="title-filter">Title:</label>
+            <input type="text" class="form-control" id="title-filter" name="title-filter">
+        </div>
+        <div class="form-group">
+            <label for="location-filter">Location:</label>
+            <input type="text" class="form-control" id="location-filter" name="location-filter">
+        </div>
+        <div class="form-group">
+            <label for="currency-filter">Currency:</label>
+            <input type="text" class="form-control" id="currency-filter" name="currency-filter">
+        </div>
+        <button type="submit" class="btn btn-primary">Apply Filters</button>
+    </form>
+</body>
+</html>

@@ -1,7 +1,6 @@
 import os
-
 import sqlalchemy
-from sqlalchemy import create_engine, text
+from sqlalchemy import create_engine, text, and_, select
 
 db_connection_string = os.environ['DB_CONNECTION_STRING']
 
@@ -71,3 +70,34 @@ def add_application_to_db(job_id, data):
 
         # Use parameter binding to safely insert data into the query
     conn.execute(query, params)
+
+
+def filter_jobs_from_db(title_filter, location_filter, currency_filter):
+    conditions = []
+
+    if title_filter:
+        conditions.append(text("title = :title"))
+
+    if location_filter:
+        conditions.append(text("location = :location"))
+
+    if currency_filter:
+        conditions.append(text("currency = :currency"))
+
+    select_query = select(("*")).select_from(text("jobs"))
+
+    if conditions:
+        condition = and_(*conditions)
+        select_query = select_query.where(condition)
+
+    with engine.connect() as conn:
+        result = conn.execute(select_query, {
+            "title": title_filter,
+            "location": location_filter,
+            "currency": currency_filter
+        })
+
+        columns = result.keys()
+        jobs = [dict(zip(columns, row)) for row in result]
+
+    return jobs
