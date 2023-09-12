@@ -17,6 +17,7 @@ def home():
                            unique_locations=unique_locations,
                            unique_currencies=unique_currencies)
 
+
 @app.route('/job/<id>')
 def job(id):
   job = load_job_from_db(id)
@@ -60,8 +61,11 @@ def filter_jobs():
     title_filter = request.form.get('title-filter')
     location_filter = request.form.get('location-filter')
     currency_filter = request.form.get('currency-filter')
-
-    filtered_jobs = filter_jobs_from_db(title_filter, location_filter, currency_filter)
+    salary_filter = request.form.get('salary-filter')
+    filtered_jobs = filter_jobs_from_db(title_filter,
+                                        location_filter,
+                                        currency_filter,
+                                        salary_filter)
 
     return render_template('filtered_jobs.html', jobs=filtered_jobs)
 

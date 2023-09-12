@@ -29,7 +29,7 @@
                 <option value="{{ title }}">{{ title }}</option>
             {% endfor %}
         </select>
-      <<label for="location-filter">Location:</label>
+      <label for="location-filter">Location:</label>
         <select id="location-filter" name="location-filter">
             <option value="">All</option>
             {% for location in unique_locations %}
@@ -41,6 +41,13 @@
             <option value="">All</option>
             {% for currency in unique_currencies %}
                 <option value="{{ currency }}">{{ currency }}</option>
+            {% endfor %}
+        </select>
+        <label for="salary-filter">Salary:</label>
+        <select id="salary-filter" name="salary-filter">
+            <option value="">Not Sorted</option>
+            {% for salary in ['Ascending','Descending'] %}
+          <option value="{{ salary }}">{{ salary }}</option>
             {% endfor %}
         </select>
         <button type="submit">Apply Filters</button>

@@ -72,32 +72,43 @@ def add_application_to_db(job_id, data):
     conn.execute(query, params)
 
 
-def filter_jobs_from_db(title_filter, location_filter, currency_filter):
+def filter_jobs_from_db(title_filter, location_filter, currency_filter, salary_filter):
     conditions = []
+    params = {}
 
     if title_filter:
-        conditions.append(text("title = :title"))
+        conditions.append(text("title LIKE :title"))
+        params["title"] = f"%{title_filter}%"
 
     if location_filter:
-        conditions.append(text("location = :location"))
+        conditions.append(text("location LIKE :location"))
+        params["location"] = f"%{location_filter}%"
 
     if currency_filter:
         conditions.append(text("currency = :currency"))
+        params["currency"] = currency_filter
 
-    select_query = select(("*")).select_from(text("jobs"))
+    query = select(("*")).select_from(text("jobs"))
 
     if conditions:
         condition = and_(*conditions)
-        select_query = select_query.where(condition)
+        query = query.where(condition)
+
+    if salary_filter:
+        if salary_filter == "Ascending":
+            query = query.order_by(text("salary ASC"))
+        else:
+            query = query.order_by(text("salary DESC"))
 
     with engine.connect() as conn:
-        result = conn.execute(select_query, {
-            "title": title_filter,
-            "location": location_filter,
-            "currency": currency_filter
-        })
+        result = conn.execute(query, params)
 
         columns = result.keys()
         jobs = [dict(zip(columns, row)) for row in result]
 
     return jobs
+
+
+
+
+
