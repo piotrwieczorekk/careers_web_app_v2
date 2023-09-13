@@ -1,5 +1,5 @@
 from flask import Flask, render_template,jsonify,request
-from database import engine, get_jobs_from_db, load_job_from_db,add_application_to_db,filter_jobs_from_db,add_user_to_db
+from database import engine, get_jobs_from_db, load_job_from_db,add_application_to_db,filter_jobs_from_db,add_user_to_db,check_user
 from sqlalchemy import text
 app = Flask(__name__)
 
@@ -67,19 +67,6 @@ def submit_application(id):
 
 
 
-
-
-
-@app.route('/account/register', methods=['POST'])
-def register_user():
-    data = request.form
-    add_user_to_db(data)
-    # Return a response or render a template as needed
-    return render_template('register.html')
-
-
-
-
 @app.route('/filter', methods=['POST'])
 def filter_jobs():
     title_filter = request.form.get('title-filter')
@@ -105,6 +92,28 @@ def get_unique_values(column_name):
                 unique_values.add(value_parts[0].strip())  # Add the part before the first comma
     
     return sorted(list(unique_values))  # Sort and convert to a list
+
+
+@app.route('/account/register', methods=['POST'])
+def register_user():
+    data = request.form
+    add_user_to_db(data)
+    # Return a response or render a template as needed
+    return render_template('register.html')
+
+
+@app.route('/account/register/check_login', methods=['POST'])
+def check_login():
+    email = request.form['email']
+    password = request.form['password']
+    user = check_user(email, password)
+    if user is None:
+        return render_template('login_failure.html')
+    else:
+        # Do something with the user's information
+        return render_template('login_success.html')
+
+
 
 
 if __name__ == '__main__':

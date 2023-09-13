@@ -26,6 +26,22 @@ def get_jobs_from_db():
             jobs.append(row_dict)  # Append each job to the list
         return jobs
 
+
+def check_user(email, password):
+    with engine.connect() as conn:
+        result = conn.execute(text("SELECT * FROM app_users WHERE user_email = :user_email AND user_password = :user_password"), {"user_email": email, "user_password": password})
+        columns = result.keys()  # Get the column names
+        users = []
+        for row in result:
+            row_dict = dict(zip(columns, row))
+            users.append(row_dict)  # Append each user to the list
+        if len(users) == 0:
+            return None
+        else:
+            return users[0]
+
+
+
 def load_job_from_db(id):
   with engine.connect() as conn:
     result = conn.execute(text("select * from jobs where id = :val"), {"val":id})
