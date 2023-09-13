@@ -1,5 +1,5 @@
 from flask import Flask, render_template,jsonify,request
-from database import engine, get_jobs_from_db, load_job_from_db,add_application_to_db,filter_jobs_from_db
+from database import engine, get_jobs_from_db, load_job_from_db,add_application_to_db,filter_jobs_from_db,add_user_to_db
 from sqlalchemy import text
 app = Flask(__name__)
 
@@ -17,6 +17,14 @@ def home():
                            unique_locations=unique_locations,
                            unique_currencies=unique_currencies)
 
+
+@app.route("/register",methods=['POST'])
+def user_registration():
+  return render_template('register.html')
+
+@app.route("/account")
+def account():
+  return render_template('account.html')
 
 @app.route('/job/<id>')
 def job(id):
@@ -55,6 +63,22 @@ def submit_application(id):
     job = load_job_from_db(id)  # Load the job object based on the 'id'
     add_application_to_db(id, data)
     return render_template('application_form_submitted.html', job=job,application=data)
+
+
+
+
+
+
+
+@app.route('/account/register', methods=['POST'])
+def register_user():
+    data = request.form
+    add_user_to_db(data)
+    # Return a response or render a template as needed
+    return render_template('register.html')
+
+
+
 
 @app.route('/filter', methods=['POST'])
 def filter_jobs():

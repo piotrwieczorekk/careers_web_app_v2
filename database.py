@@ -71,6 +71,27 @@ def add_application_to_db(job_id, data):
         # Use parameter binding to safely insert data into the query
     conn.execute(query, params)
 
+def add_user_to_db(data):
+  with engine.connect() as conn:
+    query = text("""
+            INSERT INTO app_users (
+            user_email, 
+            user_password)
+            VALUES (
+            :user_email,
+            :user_password)
+        """)
+
+    params = {
+            "user_email": data['user_email'],
+            "user_password": data['user_password']
+        }
+        # Use parameter binding to safely insert data into the query
+    conn.execute(query, params)
+
+
+
+
 
 def filter_jobs_from_db(title_filter, location_filter, currency_filter, salary_filter):
     conditions = []

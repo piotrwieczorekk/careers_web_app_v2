@@ -2,3 +2,4 @@ Flask
 Gunicorn
 sqlalchemy
 pymysql
+flask_login
