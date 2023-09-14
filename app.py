@@ -1,5 +1,5 @@
 from flask import Flask, render_template,jsonify,request, redirect, url_for, session
-from database import engine, get_jobs_from_db, load_job_from_db,add_application_to_db,filter_jobs_from_db,add_user_to_db,check_user
+from database import engine, get_jobs_from_db, load_job_from_db,add_application_to_db,filter_jobs_from_db,add_user_to_db,check_user,load_user_from_db
 from sqlalchemy import text
 app = Flask(__name__)
 app.secret_key = 'your_secret_key_here'
@@ -26,12 +26,21 @@ def user_registration():
 @app.route("/account")
 def account():
     user = session.get('user')
+    user_data = None
     if user:
+        user_data = load_user_from_db(user['user_id'])
         # User is logged in, display account information
-        return render_template('account.html', user=user)
+        return render_template('account.html', user=user, user_data=user_data)
     else:
         # User is not logged in, display registration and login forms
         return render_template('account.html', user=None)
+
+
+
+def get_user_info(id):
+  user_data = load_user_from_db(id)
+  return user_data
+
 
 @app.route('/job/<id>')
 def job(id):
@@ -42,6 +51,8 @@ def job(id):
                           job=job)
   else:
     return 'There is no such job id.',404
+
+
 
 @app.route('/about')
 def about_us():
@@ -142,11 +153,6 @@ def check_login():
         # Do something with the user's information
         session['user'] = user
         return render_template('login_success.html')
-
-
-
-
-
 
 
 

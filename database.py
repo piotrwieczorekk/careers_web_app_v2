@@ -55,6 +55,20 @@ def load_job_from_db(id):
     else:
       return jobs[0]
 
+
+def load_user_from_db(id):
+  with engine.connect() as conn:
+    result = conn.execute(text("select user_email, user_id from app_users where user_id = :val"), {"val":id})
+    columns = result.keys()  # Get the column names
+    users = []
+    for row in result:
+      row_dict = dict(zip(columns, row))
+      users.append(row_dict)  # Append each job to the list
+    if len(users) == 0:
+      return None
+    else:
+      return users[0]
+
 def add_application_to_db(job_id, data):
   with engine.connect() as conn:
     query = text("""
