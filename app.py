@@ -1,7 +1,8 @@
-from flask import Flask, render_template,jsonify,request, redirect, url_for
+from flask import Flask, render_template,jsonify,request, redirect, url_for, session
 from database import engine, get_jobs_from_db, load_job_from_db,add_application_to_db,filter_jobs_from_db,add_user_to_db,check_user
 from sqlalchemy import text
 app = Flask(__name__)
+app.secret_key = 'your_secret_key_here'
 
 
 @app.route("/")
@@ -24,7 +25,13 @@ def user_registration():
 
 @app.route("/account")
 def account():
-  return render_template('account.html')
+    user = session.get('user')
+    if user:
+        # User is logged in, display account information
+        return render_template('account.html', user=user)
+    else:
+        # User is not logged in, display registration and login forms
+        return render_template('account.html', user=None)
 
 @app.route('/job/<id>')
 def job(id):
@@ -110,9 +117,18 @@ def login_user():
         return render_template('login_failure.html')
     else:
         # Do something with the user's information
+        session['user'] = user
         return render_template('login_success.html')
 
-  
+
+@app.route('/account/logout')
+def logout():
+    # Clear the user's session
+    session.pop('user', None)
+    # Redirect to the home page or any other appropriate page
+    return redirect(url_for('home'))
+
+
 
 
 @app.route('/account/register/check_login', methods=['POST'])
@@ -124,6 +140,7 @@ def check_login():
         return render_template('login_failure.html')
     else:
         # Do something with the user's information
+        session['user'] = user
         return render_template('login_success.html')
 
 
