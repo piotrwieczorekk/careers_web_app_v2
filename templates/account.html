@@ -32,13 +32,13 @@
     <div class="modal modal-sheet position-static d-block bg-body-secondary p-4 py-md-5 sheet-color" tabindex="-1" role="dialog" id="modalSheet">
       <div class="modal-dialog" role="document">
         <div class="modal-content rounded-4 shadow">
+          <div class="modal-body p-5 pt-0">
           <form method="post" action="{{ url_for('register_user') }}">
-            <div class="modal-body p-5 pt-0">
               <div class="section-header">
                 <h2>New to JobQuest? Sign up for free</h2>
               </div>
               <div class="form-floating mb-3">
-                <input type="email" required name="user_email" class="form-control rounded-3" id="floatingInput" placeholder="name@example.com">
+                <input type="email" name="user_email" class="form-control rounded-3" id="floatingInput" placeholder="name@example.com">
                 <label for="floatingInput">Email address</label>
               </div>
               <div class="form-floating mb-3">
@@ -47,23 +47,25 @@
               </div>
               <button type="submit" class="w-100 mb-2 btn btn-lg rounded-3 btn-primary btn-custom">Sign up</button>
               <small class="text-body-secondary">By clicking Sign up, you agree to the terms of use.</small>
+          </form>
+          <form method="post" action="{{ url_for('login_user') }}">
               <hr class="my-4">
               <div class="section-header">
                 <h2>Or sign in if you already have an account</h2>
               </div>
               <div class="form-floating mb-3">
-                <input type="email" class="form-control rounded-3" id="floatingInput" placeholder="name@example.com">
+                <input type="email" class="form-control rounded-3" id="floatingInput" placeholder="name@example.com" name="email">
                 <label for="floatingInput">Email address</label>
               </div>
               <div class="form-floating mb-3">
-                <input type="password" class="form-control rounded-3" id="floatingPassword" placeholder="Password">
+                <input type="password" class="form-control rounded-3" id="floatingPassword" placeholder="Password" name="password">
                 <label for="floatingPassword">Password</label>
               </div>
               <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary btn-custom" type="submit">Sign in</button>
               <small class="text-body-secondary">By clicking Sign in, you agree to the terms of use.</small>
+          </form>
               <hr class="my-4">
             </div>
-          </form>
         </div>
       </div>
     </div>

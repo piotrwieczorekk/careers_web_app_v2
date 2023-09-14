@@ -1,4 +1,4 @@
-from flask import Flask, render_template,jsonify,request
+from flask import Flask, render_template,jsonify,request, redirect, url_for
 from database import engine, get_jobs_from_db, load_job_from_db,add_application_to_db,filter_jobs_from_db,add_user_to_db,check_user
 from sqlalchemy import text
 app = Flask(__name__)
@@ -101,6 +101,19 @@ def register_user():
     # Return a response or render a template as needed
     return render_template('register.html')
 
+@app.route('/account/login', methods=['POST'])
+def login_user():
+    email = request.form['email']
+    password = request.form['password']
+    user = check_user(email, password)
+    if user is None:
+        return render_template('login_failure.html')
+    else:
+        # Do something with the user's information
+        return render_template('login_success.html')
+
+  
+
 
 @app.route('/account/register/check_login', methods=['POST'])
 def check_login():
@@ -112,6 +125,10 @@ def check_login():
     else:
         # Do something with the user's information
         return render_template('login_success.html')
+
+
+
+
 
 
 
