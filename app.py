@@ -1,5 +1,5 @@
 from flask import Flask, render_template,jsonify,request, redirect, url_for, session
-from database import engine, get_jobs_from_db, load_job_from_db,add_application_to_db,filter_jobs_from_db,add_user_to_db,check_user,load_user_from_db
+from database import engine, get_jobs_from_db, load_job_from_db,add_application_to_db,filter_jobs_from_db,add_user_to_db,check_user,load_user_from_db,load_application_from_db
 from sqlalchemy import text
 app = Flask(__name__)
 app.secret_key = 'your_secret_key_here'
@@ -27,10 +27,12 @@ def user_registration():
 def account():
     user = session.get('user')
     user_data = None
+    user_job_app = None
     if user:
         user_data = load_user_from_db(user['user_id'])
+        user_job_app = load_application_from_db(user['user_id'])
         # User is logged in, display account information
-        return render_template('account.html', user=user, user_data=user_data)
+        return render_template('account.html', user=user, user_data=user_data, user_job_app = user_job_app)
     else:
         # User is not logged in, display registration and login forms
         return render_template('account.html', user=None)
@@ -75,12 +77,31 @@ def application_form(id):
     else:
         return 'There is no such job id.', 404
 
+
+
+
+@app.route('/account/login', methods=['POST'])
+def login_user():
+    email = request.form['email']
+    password = request.form['password']
+    user = check_user(email, password)
+    if user is None:
+        return render_template('login_failure.html')
+    else:
+        # Do something with the user's information
+        session['user'] = user
+        return render_template('login_success.html')
+
 @app.route('/job/<id>/form/submit',methods=['POST'])
 def submit_application(id):
     data = request.form
     job = load_job_from_db(id)  # Load the job object based on the 'id'
-    add_application_to_db(id, data)
-    return render_template('application_form_submitted.html', job=job,application=data)
+    user = session.get('user')
+    user_data = None
+    if user:
+      user_data = load_user_from_db(user['user_id'])
+      add_application_to_db(id, data,user_data)
+      return render_template('application_form_submitted.html', job=job,application=data, user_data = user_data)
 
 
 
@@ -118,18 +139,6 @@ def register_user():
     add_user_to_db(data)
     # Return a response or render a template as needed
     return render_template('register.html')
-
-@app.route('/account/login', methods=['POST'])
-def login_user():
-    email = request.form['email']
-    password = request.form['password']
-    user = check_user(email, password)
-    if user is None:
-        return render_template('login_failure.html')
-    else:
-        # Do something with the user's information
-        session['user'] = user
-        return render_template('login_success.html')
 
 
 @app.route('/account/logout')
