@@ -1,0 +1,71 @@
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  <style>
+    .large-textarea {
+      width: 100%;
+      height: 100px;
+    }
+    .large-input, .large-textarea {
+    outline: none; /* Remove the default blue outline */
+    border: 2px solid #439B41; /* Set your custom border color */
+}
+
+.large-textarea {
+    width: 100%;
+    height: 100px;
+}
+
+.large-input {
+    width: 20%;
+    height: 40px;
+}
+    .label-color {
+      color: #439B41;
+      font-size: 26px;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+<h4 style="text-align:center; color:#439B41; font-size:34px;">Job Advertisement Form</h4>
+<form action="{{ url_for('submit_job_ad') }}" method="post">
+  <div class="mb-2">
+  <label class='label-color' style="text-align:center;">Company Name</label><br>
+  <input type="text" name="company_name" class="large-input">
+  </div>
+
+  <div class="mb-2">
+  <label class='label-color' style="text-align:center;">Job Title</label><br>
+  <input type="text" name="title" class="large-input">
+  </div>
+
+  <div class="mb-2">
+  <label class='label-color' style="text-align:center;">Location</label><br>
+  <input type="text" name="location" class="large-input">
+  </div>
+
+  <div class="mb-2">
+    <label class='label-color' style="text-align:center;">Salary</label><br>
+    <input type="text" name="salary" class="large-input">
+  </div>
+  <div class="mb-2">
+    <label class='label-color' style="text-align:center;">Currency</label><br>
+    <input type ="text" name="currency" class="large-input"></input>
+  </div>
+
+  <div class="mb-2">
+  <label class='label-color' style="text-align:center;">Responsibilities</label><br>
+  <textarea type="text" name="responsibilities" class="large-textarea"></textarea>
+  </div>
+
+  <div class="mb-2">
+    <label class='label-color' style="text-align:center;">Requirements</label><br>
+    <textarea type="text" name="requirements" class="large-textarea"></textarea>
+  </div>
+  <input type="submit" style="text-align:center;">
+</form>
+  </div>
+</body>

@@ -25,7 +25,6 @@
       .sheet-color {
         background-color: #D8E5D9;
       }
-
     </style>
   </head>
   <body>
@@ -82,13 +81,18 @@
       Account created at:
     </h4>
       <p>{{ user_data['created_at'] }}</p>
-      <h4 style="color: #439B41;">Your applications:</h4>
+      <div>
+        <h4 style="color: #439B41;">Log out:</h4>
+        <a href="{{ url_for('logout') }}" class="mb-2 btn btn-lg rounded-3 btn-primary btn-custom" style="width:15%;">Log out</a>
+      </div>
+      <h4 style="color: #439B41;">
+  <h4 style="color: #439B41;">Your applications:</h4>
       {% for job_app in user_job_app %}
       <div class="border-bottom row" style="margin-bottom:16px;padding-bottom:8px;">
   <div class="col-10">
     <div>
-      <b>Job ID:</b>
-      <a href="/job/{{job_app['job_id']}}" style="color: #439B41;">{{ job_app['job_id'] }}</a>
+      <b>Job Title: </b>
+      <a href="/job/{{job_app['job_id']}}" style="color: #439B41;">{{ job_app['title'] }}</a>
     </div>
     <div>
       <b>Full Name:</b> {{ job_app['full_name'] }}
@@ -118,4 +122,3 @@
       {% endif %}
   </body>
 </html>
-    

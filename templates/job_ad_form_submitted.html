@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  </head>
+  <style>
+    p {
+      text-align: center;
+      font-size: 24px;
+    }
+    .return-home {
+      text-align: center;
+    }
+    .center-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+  </style>
+  <body>
+    <div class="center-content">
+<p>You passed the following information:</p>
+<b>Company Name:</b>
+<div>
+  {{ad['company_name']}}</div>
+<b>Job Title::</b>
+<div>
+  {{ad['title']}}</div>
+<b>Location:</b>
+<div>
+  {{ad['location']}}</div>
+<b>Salary:</b>
+<div>
+  {{ad['salary']}}</div>
+<b>Currency:</b>
+<div>
+  {{ad['currency']}}</div>
+<b>Responsibilities:</b>
+<div>
+  {{ad['responsibilities']}}</div>
+<b>Requirements:</b>
+<div>
+  {{ad['requirements']}}</div>
+<div>
+<div id="return-home" style="text-align:center;">
+<a class="btn btn-outline-success" style="margin-top:10px;" href="/">Return to Home page</a>
+  </div>
+  </div>
+</body>
+</html>

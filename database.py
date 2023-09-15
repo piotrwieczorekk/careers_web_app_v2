@@ -72,16 +72,24 @@ def load_user_from_db(id):
 
 def load_application_from_db(user_id):
   with engine.connect() as conn:
-    result = conn.execute(text("select job_id, full_name, email, linkedin_url, education, work_experience, resume_url, created_at from application where user_id = :val"), {"val":user_id})
+    result = conn.execute(text("""
+    SELECT t1.job_id,
+    t1.full_name,
+    t1.email,
+    t1.linkedin_url,
+    t1.education,
+    t1.work_experience,
+    t1.resume_url,
+    t1.created_at,
+    t2.title
+    FROM application t1
+    INNER JOIN jobs t2
+    ON t1.job_id = t2.id 
+    WHERE t1.user_id = :val"""), {"val":user_id})
     columns = result.keys()  # Get the column names
-    job_app = []
-    for row in result:
-      row_dict = dict(zip(columns, row))
-      job_app.append(row_dict)  # Append each job to the list
-    if len(job_app) == 0:
-      return None
-    else:
-      return job_app
+    job_app = [dict(zip(columns, row)) for row in result]
+
+    return job_app if job_app else []  # Return an empty list if no job applications are found
 
 def add_application_to_db(job_id, data, user_data):
   with engine.connect() as conn:
@@ -116,6 +124,40 @@ def add_application_to_db(job_id, data, user_data):
         }
 
         # Use parameter binding to safely insert data into the query
+    conn.execute(query, params)
+
+def add_job_ad_to_db(data, user_data):
+  with engine.connect() as conn:
+    query = text("""
+            INSERT INTO jobs (
+            user_id,
+            title, 
+            company_name, 
+            location, 
+            salary,
+            currency,
+            responsibilities,
+            requirements)
+            VALUES (
+            :user_id,
+            :title,
+            :company_name,
+            :location,
+            :salary,
+            :currency,
+            :responsibilities,
+            :requirements)
+        """)
+    params = {
+            "user_id": user_data['user_id'],
+            "title": data['title'],
+            "company_name": data['company_name'],
+            "location": data['location'],
+            "salary": data['salary'],
+            "currency": data['currency'],
+            "responsibilities": data['responsibilities'],
+            "requirements": data['requirements']
+        }
     conn.execute(query, params)
 
 def add_user_to_db(data):
