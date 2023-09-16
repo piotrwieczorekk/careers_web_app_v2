@@ -25,47 +25,48 @@
       color: #439B41;
       font-size: 26px;
     }
-  body {
+    body {
     background: linear-gradient(to bottom,#EEFFFB, #E9FFFD);
       }
   </style>
 </head>
 <body>
   <div class="container">
-<h4 style="text-align:center; color:#439B41; font-size:34px;">Job Advertisement Form</h4>
-<form action="{{ url_for('submit_job_ad') }}" method="post">
+    <h4 style="color: #439B41;">
+  <h4 style="color: #439B41;" class="mt-2 mb-4">Job Advertisement Form - Update</h4>
+<form action="{{ url_for('update_job_advertisement_submit',  id=job_elements.id) }}" method="post">
   <div class="mb-2">
   <label class='label-color' style="text-align:center;">Company Name</label><br>
-  <input type="text" name="company_name" class="large-input">
+  <input type="text" name="company_name" class="large-input" value="{{ job_elements['company_name'] }}">
   </div>
 
   <div class="mb-2">
   <label class='label-color' style="text-align:center;">Job Title</label><br>
-  <input type="text" name="title" class="large-input">
+  <input type="text" name="title" class="large-input" value="{{ job_elements['title'] }}">
   </div>
 
   <div class="mb-2">
   <label class='label-color' style="text-align:center;">Location</label><br>
-  <input type="text" name="location" class="large-input">
+  <input type="text" name="location" class="large-input" value="{{ job_elements['location'] }}">
   </div>
 
   <div class="mb-2">
     <label class='label-color' style="text-align:center;">Salary</label><br>
-    <input type="text" name="salary" class="large-input">
+    <input type="text" name="salary" class="large-input" value="{{ job_elements['salary'] }}">
   </div>
   <div class="mb-2">
     <label class='label-color' style="text-align:center;">Currency</label><br>
-    <input type ="text" name="currency" class="large-input"></input>
+    <input type ="text" name="currency" class="large-input" value="{{ job_elements['currency'] }}">
   </div>
 
   <div class="mb-2">
   <label class='label-color' style="text-align:center;">Responsibilities</label><br>
-  <textarea type="text" name="responsibilities" class="large-textarea"></textarea>
+  <textarea type="text" name="responsibilities" class="large-textarea">{{job_elements['responsibilities']}}</textarea>
   </div>
 
   <div class="mb-2">
     <label class='label-color' style="text-align:center;">Requirements</label><br>
-    <textarea type="text" name="requirements" class="large-textarea"></textarea>
+    <textarea type="text" name="requirements" class="large-textarea">{{job_elements['requirements']}}</textarea>
   </div>
   <input type="submit" style="text-align:center;">
 </form>

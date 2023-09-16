@@ -1,5 +1,5 @@
 from flask import Flask, render_template,jsonify,request, redirect, url_for, session
-from database import engine, get_jobs_from_db, load_job_from_db,add_application_to_db,filter_jobs_from_db,add_user_to_db,check_user,load_user_from_db,load_application_from_db, add_job_ad_to_db,load_job_ad_from_db
+from database import engine, get_jobs_from_db, load_job_from_db,add_application_to_db,filter_jobs_from_db,add_user_to_db,check_user,load_user_from_db,load_application_from_db, add_job_ad_to_db,load_job_ad_from_db,delete_job_ad_from_db,update_job_ad_from_db
 from sqlalchemy import text
 app = Flask(__name__)
 app.secret_key = 'your_secret_key_here'
@@ -39,7 +39,12 @@ def account():
         # User is not logged in, display registration and login forms
         return render_template('account.html', user=None)
 
-
+@app.route("/job/<id>/delete")
+def delete_job_ad(id):
+    # Call your delete_job_ad_from_db function here with the provided id
+    delete_job_ad_from_db(id)
+    # Redirect back to the account page or any other appropriate page
+    return redirect(url_for('account'))
 
 def get_user_info(id):
   user_data = load_user_from_db(id)
@@ -71,21 +76,6 @@ def features():
     return render_template('features.html')
 
 
-@app.route('/job/<id>/form')
-def application_form(id):
-    job = load_job_from_db(id)  # Load the job object based on the 'id'
-    user = session.get('user')
-    if job:
-      if user:
-        return render_template('application_form.html', job=job,user=user)
-      else: 
-        return render_template('account.html')
-    else:
-        return 'There is either no such job ID', 404
-
-
-
-
 @app.route('/account/login', methods=['POST'])
 def login_user():
     email = request.form['email']
@@ -98,6 +88,19 @@ def login_user():
         session['user'] = user
         return render_template('login_success.html')
 
+
+@app.route('/job/<id>/form')
+def application_form(id):
+    job = load_job_from_db(id)  # Load the job object based on the 'id'
+    user = session.get('user')
+    if job:
+      if user:
+        return render_template('application_form.html', job=job,user=user)
+      else: 
+        return render_template('account.html')
+    else:
+        return 'There is either no such job ID', 404
+
 @app.route('/job/<id>/form/submit',methods=['POST'])
 def submit_application(id):
     data = request.form
@@ -108,6 +111,22 @@ def submit_application(id):
       user_data = load_user_from_db(user['user_id'])
       add_application_to_db(id, data,user_data)
       return render_template('application_form_submitted.html', job=job,application=data, user_data = user_data)
+
+
+
+@app.route('/account/job/<id>/update',methods=['GET'])
+def update_job_advertisement(id):
+    job_elements = load_job_from_db(id)  # Load the job object based on the 'id'
+    return render_template('update_job_ad_form.html', job_elements=job_elements)
+
+@app.route('/account/job/<id>/update/submit',methods=['POST'])
+def update_job_advertisement_submit(id):
+    job = load_job_from_db(id)
+    data = request.form
+    update_job_ad_from_db(id, data)
+    return render_template('update_job_ad_form_submit.html',updated_data=data,job=job)
+
+
 
 
 @app.route('/addjob/form')

@@ -98,7 +98,31 @@ def load_job_ad_from_db(user_id):
     job_ad = [dict(zip(columns, row)) for row in result]
 
     return job_ad if job_ad else []  # Return an empty list if no job applications are found
-    
+
+
+def delete_job_ad_from_db(id):
+  with engine.connect() as conn:
+    conn.execute(text("""DELETE FROM jobs WHERE id = :val"""), {"val":id})
+
+def update_job_ad_from_db(id,data):
+  with engine.connect() as conn:
+    conn.execute(text("""UPDATE jobs
+    SET company_name = :company_name,
+    title = :title, 
+    location = :location,
+    salary = :salary,
+    currency = :currency,
+    responsibilities = :responsibilities,
+    requirements = :requirements
+    WHERE id = :val"""), {"val":id,"company_name":data['company_name'],
+              "title":data['title'],
+              "location":data['location'],
+              "salary":data['salary'],
+              "currency":data['currency'],
+              "responsibilities":data['responsibilities'],
+              "requirements":data['requirements']})
+
+
 
 def add_application_to_db(job_id, data, user_data):
   with engine.connect() as conn:

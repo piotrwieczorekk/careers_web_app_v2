@@ -25,6 +25,9 @@
       .sheet-color {
         background-color: #D8E5D9;
       }
+      body {
+    background: linear-gradient(to bottom,#EEFFFB, #E9FFFD);
+      }
     </style>
   </head>
   <body>
@@ -86,7 +89,7 @@
         <a href="{{ url_for('logout') }}" class="mb-2 btn btn-lg rounded-3 btn-primary btn-custom" style="width:15%;">Log out</a>
       </div>
       <h4 style="color: #439B41;">
-  <h4 style="color: #439B41;">Your applications:</h4>
+  <h4 style="color: #439B41;" class="mt-2 mb-4">Your applications:</h4>
       {% for job_app in user_job_app %}
       <div class="border-bottom row" style="margin-bottom:16px;padding-bottom:8px;">
   <div class="col-10">
@@ -115,7 +118,7 @@
   </div>
 </div>
 {% endfor %}
-        <h4 style="color: #439B41;">Your Job Advertisements:</h4>
+        <h4 style="color: #439B41;" class="mt-2 mb-4">Your Job Advertisements:</h4>
          {% for user_job_ad in user_job_ads %}
       <div class="border-bottom row" style="margin-bottom:16px;padding-bottom:8px;">
   <div class="col-10">
@@ -133,6 +136,9 @@
       <b>Salary:</b> {{ user_job_ad['salary'] }}
     </div>
     <div>
+      <b>Currency:</b> {{ user_job_ad['currency'] }}
+    </div>
+    <div>
       <b>Responsibilities:</b> {{ user_job_ad['responsibilities'] }}
     </div>
     <div>
@@ -141,10 +147,24 @@
     <div>
       <b>Created At:</b> {{ user_job_ad['created_at'] }}
     </div>
+    <div id="job-delete" class="mb-2 mt-4">
+    <a href="#" onclick="confirmDelete('{{ url_for('delete_job_ad', id=user_job_ad['id']) }}')" class="btn btn-outline-success">Delete Job Advertisement</a>
+</div>
+    <div id="job-update" class="mb-2 mt-4">
+    <a href="{{ url_for('update_job_advertisement', id=user_job_ad['id']) }}" class="btn btn-outline-success">Update Job Advertisement</a>
+</div>
   </div>
 </div>
         {% endfor %}
     </div>
       {% endif %}
+    <script>
+  function confirmDelete(deleteUrl) {
+    let result = window.confirm("Are you sure you want to delete this job ad?");
+    if (result) {
+        window.location = deleteUrl;
+    }
+  }
+</script>
   </body>
 </html>
