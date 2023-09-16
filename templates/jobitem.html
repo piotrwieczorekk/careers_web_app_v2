@@ -14,6 +14,9 @@
       <a href="/job/{{job['id']}}" style="color: #439B41;">{{ job['title'] }}</a>
     </h4>
     <div>
+      <b>Company:</b> {{ job['company_name'] }}
+    </div>
+    <div>
       <b>Location:</b> {{ job['location'] }}
     </div>
     {% if 'salary' in job %}

@@ -91,6 +91,15 @@ def load_application_from_db(user_id):
 
     return job_app if job_app else []  # Return an empty list if no job applications are found
 
+def load_job_ad_from_db(user_id):
+  with engine.connect() as conn:
+    result = conn.execute(text("select * from jobs where user_id = :val"), {"val":user_id})
+    columns = result.keys()  # Get the column names
+    job_ad = [dict(zip(columns, row)) for row in result]
+
+    return job_ad if job_ad else []  # Return an empty list if no job applications are found
+    
+
 def add_application_to_db(job_id, data, user_data):
   with engine.connect() as conn:
     query = text("""

@@ -1,5 +1,5 @@
 from flask import Flask, render_template,jsonify,request, redirect, url_for, session
-from database import engine, get_jobs_from_db, load_job_from_db,add_application_to_db,filter_jobs_from_db,add_user_to_db,check_user,load_user_from_db,load_application_from_db, add_job_ad_to_db
+from database import engine, get_jobs_from_db, load_job_from_db,add_application_to_db,filter_jobs_from_db,add_user_to_db,check_user,load_user_from_db,load_application_from_db, add_job_ad_to_db,load_job_ad_from_db
 from sqlalchemy import text
 app = Flask(__name__)
 app.secret_key = 'your_secret_key_here'
@@ -32,8 +32,9 @@ def account():
     if user:
         user_data = load_user_from_db(user['user_id'])
         user_job_app = load_application_from_db(user['user_id'])
+        user_job_ads = load_job_ad_from_db(user['user_id'])
         # User is logged in, display account information
-        return render_template('account.html', user=user, user_data=user_data, user_job_app = user_job_app,job=job)
+        return render_template('account.html', user=user, user_data=user_data, user_job_app = user_job_app,job=job,user_job_ads = user_job_ads)
     else:
         # User is not logged in, display registration and login forms
         return render_template('account.html', user=None)

@@ -115,6 +115,35 @@
   </div>
 </div>
 {% endfor %}
+        <h4 style="color: #439B41;">Your Job Advertisements:</h4>
+         {% for user_job_ad in user_job_ads %}
+      <div class="border-bottom row" style="margin-bottom:16px;padding-bottom:8px;">
+  <div class="col-10">
+    <div>
+      <b>Job Title:</b> 
+      <a href="/job/{{user_job_ad['id']}}" style="color: #439B41;">{{ user_job_ad['title'] }}</a>
+    </div>
+    <div>
+      <b>Company Name:</b> {{ user_job_ad['company_name'] }}
+    </div>
+    <div>
+      <b>Job Location:</b> {{ user_job_ad['location'] }}
+    </div>
+    <div>
+      <b>Salary:</b> {{ user_job_ad['salary'] }}
+    </div>
+    <div>
+      <b>Responsibilities:</b> {{ user_job_ad['responsibilities'] }}
+    </div>
+    <div>
+      <b>Requirements:</b> {{ user_job_ad['requirements'] }}
+    </div>
+    <div>
+      <b>Created At:</b> {{ user_job_ad['created_at'] }}
+    </div>
+  </div>
+</div>
+        {% endfor %}
     </div>
       {% endif %}
   </body>
