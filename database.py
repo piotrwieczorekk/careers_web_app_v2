@@ -18,7 +18,7 @@ print(sqlalchemy.__version__)
 
 def get_jobs_from_db():
     with engine.connect() as conn:
-        result = conn.execute(text("select * from jobs"))
+        result = conn.execute(text("select * from jobs ORDER BY id DESC"))
         columns = result.keys()  # Get the column names
         jobs = []
         for row in result:

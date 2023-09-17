@@ -1,12 +1,10 @@
+<html>
 <head>
+    <title>{{job_elements.title}} - Update</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
   <style>
-    .large-textarea {
-      width: 100%;
-      height: 100px;
-    }
     .large-input, .large-textarea {
     outline: none; /* Remove the default blue outline */
     border: 2px solid #439B41; /* Set your custom border color */
@@ -14,7 +12,7 @@
 
 .large-textarea {
     width: 100%;
-    height: 100px;
+    height: 200px;
 }
 
 .large-input {
@@ -25,9 +23,12 @@
       color: #439B41;
       font-size: 26px;
     }
-    body {
-    background: linear-gradient(to bottom,#EEFFFB, #E9FFFD);
-      }
+    html, body {
+  height: 100%;
+  margin: 0;
+  background: linear-gradient(to bottom, #F1F0D0, #EBFCFA);
+  background-attachment: fixed;
+}
   </style>
 </head>
 <body>
@@ -68,7 +69,9 @@
     <label class='label-color' style="text-align:center;">Requirements</label><br>
     <textarea type="text" name="requirements" class="large-textarea">{{job_elements['requirements']}}</textarea>
   </div>
-  <input type="submit" style="text-align:center;">
+  <input type="submit" style="text-align:center; margin-bottom:20px">
 </form>
   </div>
 </body>
+</head>
+</html>

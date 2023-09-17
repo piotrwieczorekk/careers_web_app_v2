@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>{{job.title}} - Careers App</title>
+    <title>{{job.title}} - JobQuest</title>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
@@ -12,30 +12,34 @@
       }
       p {
         text-align: justify;
+        font-size: 18px;
       }
-     body {
-    background: linear-gradient(to bottom,#EEFFFB, #E9FFFD);
-      }
+     html, body {
+  height: 100%;
+  margin: 0;
+  background: linear-gradient(to bottom, #F1F0D0, #EBFCFA);
+  background-attachment: fixed;
+}
     </style>
   </head>
   <body>
   {%include 'header.html'%}
     <div class="container">
     <h4 style="color: #439B41;">
-      Job Title
+      <b>Job Title</b>
     </h4>
       <p>
         {{job.title}}
       </p>
     <h4 style="color: #439B41;">
-      Location:
+      <b>Location:</b>
     </h4>
       <p>
-        {{job.location}}
+        {{job.location}}</b>
       </p>
     {% if 'salary' in job %}
     <h4 style="color: #439B41;">
-      Salary:
+      <b>Salary:</b>
     </h4>
       <p>
         {{job.salary}}
@@ -43,7 +47,7 @@
     {% endif %}
     {% if 'currency' in job %}
     <h4 style="color: #439B41;">
-      Currency:
+      <b>Currency:</b>
     </h4> 
       <p>
         {{job.currency}}
@@ -51,30 +55,30 @@
     {% endif %}
     {% if 'responsibilities' in job %}
     <h4 style="color: #439B41;">
-      Responsibilities:
+      <b>Responsibilities:</b>
     </h4> 
       <p>
         <ul>
           {% for line in job.responsibilities.split("\n") %}
-          <li>{{line}}</li>
+          <li><p>{{line}}</p></li>
           {% endfor %}
         </ul>
       </p>
     {% endif %}
     {% if 'requirements' in job %}
     <h4 style="color: #439B41;">
-      Requirements:
+     <b>Requirements:</b>
     </h4> 
       <p>
         <ul>
           {% for line in job.requirements.split("\n") %}
-          <li>{{line}}</li>
+          <li><p>{{line}}</p></li>
           {% endfor %}
         </ul>
       </p>
     {% endif %}
-      <div id="job-apply" style="text-align:center">
-    <a href="{{ url_for('application_form', id=job.id) }}" class="btn btn-outline-success">Apply</a>
+      <div id="job-apply" style="text-align:center;">
+    <a href="{{ url_for('application_form', id=job.id) }}" class="btn btn-outline-success" style="margin-bottom: 40px; margin-top: 20px; font-size:30px; width:25%; height:100%;">Apply</a>
 </div>
     </div> 
   </body>

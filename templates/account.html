@@ -3,14 +3,14 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
+    <title>JobQuest</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <style>
       .label-color {
         color: #439B41;
       }
       .btn-custom {
-        background-color: #439B41; /* Green color */
+        background-color: #9ABE9E; /* Green color */
         color: #fff; /* Text color */
         border-color: #484848;/* border color */
       }
@@ -25,9 +25,12 @@
       .sheet-color {
         background-color: #D8E5D9;
       }
-      body {
-    background: linear-gradient(to bottom,#EEFFFB, #E9FFFD);
-      }
+      html, body {
+  height: 100%;
+  margin: 0;
+  background: linear-gradient(to bottom, #F1F0D0, #EBFCFA);
+  background-attachment: fixed;
+}
     </style>
   </head>
   <body>
@@ -77,19 +80,19 @@
     <div class="container">
       {% include 'header.html' %}
       <h4 style="color: #439B41;">
-      User email:
+      <b>User email:</b>
     </h4>
       <p>{{ user_data['user_email'] }}</p>
       <h4 style="color: #439B41;">
-      Account created at:
+      <b>Account created at:</b>
     </h4>
       <p>{{ user_data['created_at'] }}</p>
       <div>
-        <h4 style="color: #439B41;">Log out:</h4>
+        <h4 style="color: #439B41;"><b>Log out:</b></h4>
         <a href="{{ url_for('logout') }}" class="mb-2 btn btn-lg rounded-3 btn-primary btn-custom" style="width:15%;">Log out</a>
       </div>
       <h4 style="color: #439B41;">
-  <h4 style="color: #439B41;" class="mt-2 mb-4">Your applications:</h4>
+  <h4 style="color: #439B41;" class="mt-2 mb-4"><b>Your applications:</b></h4>
       {% for job_app in user_job_app %}
       <div class="border-bottom row" style="margin-bottom:16px;padding-bottom:8px;">
   <div class="col-10">
@@ -118,7 +121,7 @@
   </div>
 </div>
 {% endfor %}
-        <h4 style="color: #439B41;" class="mt-2 mb-4">Your Job Advertisements:</h4>
+        <h4 style="color: #439B41;" class="mt-2 mb-4"><b>Your Job Advertisements:</b></h4>
          {% for user_job_ad in user_job_ads %}
       <div class="border-bottom row" style="margin-bottom:16px;padding-bottom:8px;">
   <div class="col-10">
