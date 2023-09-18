@@ -60,6 +60,19 @@
         </div>
       </form>
       {% include 'jobitem.html' %}
+      <div class='next-previous' style="text-align:center; font-size: 20px;">
+
+{% if page > 1 %}
+        {% if jobs|length >= 10 %} 
+            <a href="{{ url_for('home', page=page-1) }}" style="color: #439B41;">Previous</a>
+            <a href="{{ url_for('home', page=page+1) }}" style="color: #439B41;">Next</a>
+        {% else %}
+            <a href="{{ url_for('home', page=page-1) }}" style="color: #439B41;">Previous</a>
+        {% endif %}
+    {% else %}
+        <a href="{{ url_for('home', page=page+1) }}" style="color: #439B41;">Next</a>
+    {% endif %}
+      </div>
       {%include 'footer.html'%}
     </div>
   </body>

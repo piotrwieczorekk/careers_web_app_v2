@@ -8,14 +8,18 @@ app.secret_key = os.environ['SESSION_SECRET_KEY']
 
 
 @app.route("/")
-def home():
-    jobs = get_jobs_from_db()
+@app.route("/page/<int:page>")
+def home(page=1):
+    limit = 10
+    offset = (page-1) * limit
+    jobs = get_jobs_from_db(limit=limit, offset=offset)
     unique_titles = get_unique_values('title')
     unique_locations = get_unique_values('location')
     unique_currencies = get_unique_values('currency')
     
     return render_template('home2.html', 
                            jobs=jobs,
+                           page=page,
                            unique_titles=unique_titles,
                            unique_locations=unique_locations,
                            unique_currencies=unique_currencies)
@@ -82,7 +86,8 @@ def features():
 def login_user():
     email = request.form['email']
     password = request.form['password']
-    user = check_user(email, password)
+    stored_hashed_password = password.encode('utf-8')
+    user = check_user(email, stored_hashed_password)
     if user is None:
         return render_template('login_failure.html')
     else:

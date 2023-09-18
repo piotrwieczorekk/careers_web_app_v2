@@ -1,6 +1,7 @@
 import os
 import sqlalchemy
 from sqlalchemy import create_engine, text, and_, select
+import bcrypt
 
 db_connection_string = os.environ['DB_CONNECTION_STRING']
 
@@ -16,9 +17,9 @@ print(sqlalchemy.__version__)
 
 #connect to the engine
 
-def get_jobs_from_db():
+def get_jobs_from_db(limit=10, offset=0):
     with engine.connect() as conn:
-        result = conn.execute(text("select * from jobs ORDER BY id DESC"))
+        result = conn.execute(text("select * from jobs ORDER BY id DESC LIMIT :limit OFFSET :offset"), {"limit": limit, "offset": offset})
         columns = result.keys()  # Get the column names
         jobs = []
         for row in result:
@@ -27,18 +28,26 @@ def get_jobs_from_db():
         return jobs
 
 
-def check_user(email, password):
+def check_user(user_email, password):
     with engine.connect() as conn:
-        result = conn.execute(text("SELECT * FROM app_users WHERE user_email = :user_email AND user_password = :user_password"), {"user_email": email, "user_password": password})
+        result = conn.execute(text("SELECT * FROM app_users WHERE user_email = :user_email"), {"user_email": user_email})
         columns = result.keys()  # Get the column names
         users = []
         for row in result:
             row_dict = dict(zip(columns, row))
             users.append(row_dict)  # Append each user to the list
+
         if len(users) == 0:
             return None
         else:
-            return users[0]
+            user = users[0]
+            hashed_password = user['user_password']
+
+            # Compare the entered password with the hashed password
+            if bcrypt.checkpw(password.encode('utf-8'), hashed_password.encode('utf-8')):
+                return user
+            else:
+                return None
 
 
 
@@ -195,6 +204,8 @@ def add_job_ad_to_db(data, user_data):
 
 def add_user_to_db(data):
   with engine.connect() as conn:
+    salt = bcrypt.gensalt()
+    hashed_password = bcrypt.hashpw(data['user_password'].encode('utf-8'), salt)
     query = text("""
             INSERT INTO app_users (
             user_email, 
@@ -206,7 +217,7 @@ def add_user_to_db(data):
 
     params = {
             "user_email": data['user_email'],
-            "user_password": data['user_password']
+             "user_password": hashed_password.decode('utf-8')
         }
         # Use parameter binding to safely insert data into the query
     conn.execute(query, params)
