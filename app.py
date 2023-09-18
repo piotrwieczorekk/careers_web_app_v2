@@ -2,7 +2,9 @@ from flask import Flask, render_template,jsonify,request, redirect, url_for, ses
 from database import engine, get_jobs_from_db, load_job_from_db,add_application_to_db,filter_jobs_from_db,add_user_to_db,check_user,load_user_from_db,load_application_from_db, add_job_ad_to_db,load_job_ad_from_db,delete_job_ad_from_db,update_job_ad_from_db
 from sqlalchemy import text
 app = Flask(__name__)
-app.secret_key = 'your_secret_key_here'
+
+import os
+app.secret_key = os.environ['SESSION_SECRET_KEY']
 
 
 @app.route("/")

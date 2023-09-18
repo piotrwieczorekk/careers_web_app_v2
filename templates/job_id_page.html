@@ -31,6 +31,12 @@
       <p>
         {{job.title}}
       </p>
+      <h4 style="color: #439B41;">
+      <b>Company Name</b>
+    </h4>
+      <p>
+        {{job.company_name}}
+      </p>
     <h4 style="color: #439B41;">
       <b>Location:</b>
     </h4>
@@ -78,7 +84,7 @@
       </p>
     {% endif %}
       <div id="job-apply" style="text-align:center;">
-    <a href="{{ url_for('application_form', id=job.id) }}" class="btn btn-outline-success" style="margin-bottom: 40px; margin-top: 20px; font-size:30px; width:25%; height:100%;">Apply</a>
+    <a href="{{ url_for('application_form', id=job.id) }}" class="btn btn-outline-success" style="margin-bottom: 40px; margin-top: 20px; font-size:20px; width:10%; height:100%;">Apply</a>
 </div>
     </div> 
   </body>
