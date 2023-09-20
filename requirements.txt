@@ -3,3 +3,4 @@ Gunicorn
 sqlalchemy
 pymysql
 flask_login
+bcrypt
